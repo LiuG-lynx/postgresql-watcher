@@ -4,7 +4,7 @@
 Casbin role watcher to be used for monitoring updates to casbin policies
 ## Installation
 ```bash
-pip install postgresql-watcher
+pip install pycasbin-postgresql-watcher
 ```
 
 ## Basic Usage Example 

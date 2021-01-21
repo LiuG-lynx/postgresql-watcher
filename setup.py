@@ -20,24 +20,24 @@ dependency_links = [
 ]
 
 setup(
-    name="pycasbin-redis-watcher",
+    name="pycasbin-postgresql-watcher",
     version=__version__,
     long_description_content_type="text/markdown",
-    description="Redis watcher adapter for pycasbin",
+    description="Postgresql watcher adapter for pycasbin",
     long_description=long_description,
     python_requires=">3.5",
-    url="https://github.com/sciencelogic/pycasbin-redis-watcher",
-    download_url="https://github.com/sciencelogic/pycasbin-redis-watcher/tarball/" + __version__,
+    url="https://github.com/pycasbin/postgresql-watcher",
+    download_url="https://github.com/pycasbin/postgresql-watcher",
     license="MIT",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
     ],
-    keywords=["pycasbin", "casbin", "flask", "rbac"],
+    keywords=["pycasbin", "casbin", "postgresql","watcher","rbac"],
     packages=find_packages(exclude=["docs", "tests*"]),
     include_package_data=True,
-    author="ScienceLogic",
+    author="liug-lynx",
     install_requires=install_requires,
     dependency_links=dependency_links
 )
