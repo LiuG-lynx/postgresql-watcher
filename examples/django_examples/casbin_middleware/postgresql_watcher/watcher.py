@@ -1,45 +1,11 @@
-from typing import Optional, Any
+from os import lseek
+from typing import Optional, Callable, Any
 from psycopg2 import connect, extensions
-from multiprocessing import Process, Pipe
+from multiprocessing import Process, Pipe, connection
 import time
 from select import select
-from abc import ABC
-from abc import abstractmethod
+
 POSTGRESQL_CHANNEL_NAME = "casbin_role_watcher"
-
-
-class Watcher(ABC):
-    """
-    Watcher interface as it should be implemented for flask-casbin
-    """
-
-    @abstractmethod
-    def update(self):
-        """
-        Watcher interface as it should be implemented for flask-casbin
-        Returns:
-            None
-        """
-        pass
-
-    @abstractmethod
-    def set_update_callback(self):
-        """
-        Set the update callback to be used when an update is detected
-        Returns:
-            None
-        """
-        pass
-
-    @abstractmethod
-    def should_reload(self):
-        """
-        Method which checks if there is an update necessary for the casbin
-        roles. This is called with each flask request.
-        Returns:
-            Bool
-        """
-        pass
 
 
 def casbin_subscription(
@@ -135,7 +101,6 @@ class PostgresqlWatcher(object):
             f"NOTIFY {self.channel_name},'casbin policy update at {time.time()}'"
         )
         conn.close()
-        self.update_callback()
         return True
 
     def should_reload(self):
