@@ -4,7 +4,7 @@
 Casbin role watcher to be used for monitoring updates to casbin policies
 ## Installation
 ```bash
-pip install pycasbin-postgresql-watcher
+pip install casbin_postgresql_watcher
 ```
 
 ## Basic Usage Example 
@@ -27,6 +27,8 @@ casbin_enforcer.set_watcher(watcher)
  
 ```python
 # postgresql-watcher/examples/django_examples/casbin_middleware/middlewate.py
+from postgresql_watcher import PostgresqlWatcher
+
 class CasbinMiddleware:
     """
     Casbin middleware.
@@ -40,7 +42,7 @@ class CasbinMiddleware:
         self.enforcer.watcher = PostgresqlWatcher(host=HOST, port=PORT, user=USER, password=PASSWORD)
         self.enforcer.watcher.set_update_callback(self.enforcer.load_policy)
 ```
-I put watcher in `__call__` of CasbinMiddleware to show the watcher functionality more conveniently 
+Put watcher in `__call__` of CasbinMiddleware to show the watcher functionality more conveniently 
 > Please note that the following is for demonstration purposes only and the production environment is not available. Please set up the Watcher to suit your own needs
 ```python
 # postgresql-watcher/examples/django_examples/casbin_middleware/middlewate.py

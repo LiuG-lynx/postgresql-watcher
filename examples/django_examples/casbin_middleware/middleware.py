@@ -15,12 +15,13 @@
 import casbin
 
 from django.core.exceptions import PermissionDenied
-from .postgresql_watcher import PostgresqlWatcher
+from postgresql_watcher import PostgresqlWatcher
 
-HOST="172.17.0.3"
+HOST="172.17.0.1"
 PORT='5432'
 USER="postgres"
 PASSWORD="123456"
+
 class CasbinMiddleware:
     """
     Casbin middleware.
@@ -31,7 +32,7 @@ class CasbinMiddleware:
         # Initialize the Casbin enforcer, executed only on once.
         self.enforcer = casbin.Enforcer("casbin_middleware/authz_model.conf", "casbin_middleware/authz_policy.csv")
         self.enforcer.watcher = PostgresqlWatcher(host=HOST, port=PORT, user=USER, password=PASSWORD)
-        self.enforcer.watcher.set_update_callback(self.enforcer.load_policy())
+        self.enforcer.watcher.set_update_callback(self.enforcer.load_policy)
 
     def __call__(self, request):
         # Check the permission for each request.
@@ -39,15 +40,15 @@ class CasbinMiddleware:
             # Not authorized, return HTTP 403 error.
             self.require_permission()
 
-        # Permission passed, go to next module.
-        # check_watch save_policy
-        print("run save_policy")
-        self.enforcer.save_policy()
         response = self.get_response(request)
         return response
 
     def check_permission(self, request):
         # Customize it based on your authentication method.
+        # Permission passed, go to next module.
+        # check_watch save_policy
+        print("run save_policy")
+        self.enforcer.watcher.update()
         user = request.user.username
         if request.user.is_anonymous:
             user = 'anonymous'
@@ -56,4 +57,5 @@ class CasbinMiddleware:
         return self.enforcer.enforce(user, path, method)
 
     def require_permission(self,):
+
         raise PermissionDenied

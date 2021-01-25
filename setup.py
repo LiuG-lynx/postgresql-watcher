@@ -20,7 +20,7 @@ dependency_links = [
 ]
 
 setup(
-    name="pycasbin-postgresql-watcher",
+    name="casbin_postgresql_watcher",
     version=__version__,
     long_description_content_type="text/markdown",
     description="Postgresql watcher adapter for pycasbin",
@@ -35,7 +35,7 @@ setup(
         "Programming Language :: Python :: 3",
     ],
     keywords=["pycasbin", "casbin", "postgresql","watcher","rbac"],
-    packages=find_packages(exclude=["docs", "tests*"]),
+    packages=find_packages(exclude=["docs", "tests*","examples"]),
     include_package_data=True,
     author="liug-lynx",
     install_requires=install_requires,
